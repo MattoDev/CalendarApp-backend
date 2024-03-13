@@ -1,3 +1,8 @@
+/* 
+User routes / AUTH
+hots + api/auth 
+*/
+
 const express = require("express");
 require("dotenv").config();
 
@@ -6,13 +11,10 @@ console.log(process.env);
 //Create express server
 const app = express();
 
-//Rutas
-/* app.get("/", (req, res) => {
-  console.log("se requiere el slash");
-  res.json({
-    ok: true,
-  });
-}); */
+//Routes
+//TODO: auth// create, login, renew
+app.use("/api/auth", require("./routes/auth"));
+//TODO: CRUD: Events
 
 //Public directory
 //use middleware
