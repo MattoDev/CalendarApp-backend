@@ -1,11 +1,15 @@
 const { Router } = require("express");
 const router = Router();
+const {
+  createUser,
+  loginUser,
+  revalidateToken,
+} = require("../controllers/auth");
 
-router.get("/", (req, res) => {
-  console.log("se requiere el slash");
-  res.json({
-    ok: true,
-  });
-});
+router.post("/new", createUser);
+
+router.post("/", loginUser);
+
+router.get("/renew", revalidateToken);
 
 module.exports = router;
