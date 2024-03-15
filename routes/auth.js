@@ -6,6 +6,7 @@ const {
   loginUser,
   revalidateToken,
 } = require("../controllers/auth");
+const { filedsValidator } = require("../middlewares/field-validator");
 
 router.post(
   "/new",
@@ -16,6 +17,7 @@ router.post(
     check("password", "el password debe de ser de 6 caracteres").isLength({
       min: 6,
     }),
+    filedsValidator,
   ],
   createUser
 );
@@ -28,6 +30,7 @@ router.post(
     check("password", "el password debe de ser de 6 caracteres").isLength({
       min: 6,
     }),
+    filedsValidator,
   ],
   loginUser
 );
