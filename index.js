@@ -6,8 +6,6 @@ hots + api/auth
 const express = require("express");
 require("dotenv").config();
 
-console.log(process.env);
-
 //Create express server
 const app = express();
 
