@@ -6,12 +6,16 @@ hots + api/auth
 const express = require("express");
 require("dotenv").config();
 const { dbConnection } = require("./database/config");
+const cors = require("cors");
 
 //Create express server
 const app = express();
 
 //Data base
 dbConnection();
+
+//CORS
+app.use(cors());
 //Public directory
 //use middleware
 app.use(express.static("public"));
@@ -20,7 +24,7 @@ app.use(express.static("public"));
 app.use(express.json());
 
 //Routes
-//TODO: auth// create, login, renew
+
 app.use("/api/auth", require("./routes/auth"));
 //TODO: CRUD: Events
 
