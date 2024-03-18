@@ -9,7 +9,7 @@ const createUser = async (req, res = response) => {
     console.log("User: ", user);
 
     if (user) {
-      res.status(400).json({
+      return res.status(400).json({
         ok: false,
         msg: "El usuario ya existe con ese email",
       });
@@ -22,33 +22,59 @@ const createUser = async (req, res = response) => {
 
     await user.save();
 
-    res.status(201).json({
+    return res.status(201).json({
       ok: true,
       uid: user.id,
       name: user.name,
     });
   } catch (error) {
     console.log("Error: ", error);
-    res.status(500).json({
+    return res.status(500).json({
       ok: false,
       msg: "Por favor hable con el administrador",
     });
   }
 };
 
-const loginUser = (req, res = response) => {
+const loginUser = async (req, res = response) => {
   const { email, password } = req.body;
 
-  res.status(201).json({
-    ok: true,
-    msg: "login",
-    email,
-    password,
-  });
+  try {
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        ok: false,
+        msg: "El usuario y contraseña es incorrecto",
+      });
+    }
+
+    //Confirm passwords
+    const validPassword = bcrypt.compareSync(password, user.password);
+    if (!validPassword) {
+      return res.status(400).json({
+        ok: false,
+        msg: "Password incorrecto",
+      });
+    }
+
+    //Generate our JWT
+    return res.json({
+      ok: true,
+      uid: user.id,
+      name: user.name,
+    });
+  } catch (error) {
+    console.log("Error: ", error);
+    return res.status(500).json({
+      ok: false,
+      msg: "Por favor hable con el administrador",
+    });
+  }
 };
 
 const revalidateToken = (req, res = response) => {
-  res.json({
+  return res.json({
     ok: true,
     msg: "renew",
   });
