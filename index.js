@@ -5,10 +5,13 @@ hots + api/auth
 
 const express = require("express");
 require("dotenv").config();
+const { dbConnection } = require("./database/config");
 
 //Create express server
 const app = express();
 
+//Data base
+dbConnection();
 //Public directory
 //use middleware
 app.use(express.static("public"));
