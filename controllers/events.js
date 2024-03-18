@@ -37,7 +37,6 @@ const createEvent = async (req, res = response) => {
 };
 
 const updateEvent = async (req, res = response) => {
-  console.log(req);
   try {
     const { uid, name } = req;
     const token = await generateJwt(uid, name);
@@ -56,7 +55,6 @@ const updateEvent = async (req, res = response) => {
 };
 
 const deleteEvent = async (req, res = response) => {
-  console.log(req);
   try {
     const { uid, name } = req;
     const token = await generateJwt(uid, name);
