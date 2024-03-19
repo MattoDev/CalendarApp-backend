@@ -3,12 +3,13 @@ const { generateJwt } = require("../helpers/jwt");
 const Event = require("../models/Event");
 
 const getEvents = async (req, res = response) => {
+  const events = await Event.find().populate("user", "name");
   try {
     const { uid, name } = req;
     const token = await generateJwt(uid, name);
     return res.json({
       ok: true,
-      msg: "getEvents",
+      msg: events,
       token,
     });
   } catch (error) {
