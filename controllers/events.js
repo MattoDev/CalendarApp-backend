@@ -76,10 +76,27 @@ const updateEvent = async (req, res = response) => {
 };
 
 const deleteEvent = async (req, res = response) => {
+  const eventId = req.params.id;
+  const uid = req.uid;
   try {
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).json({
+        ok: false,
+        msg: "No existe el evento por ese id",
+      });
+    }
+    if (event.user.toString() !== uid) {
+      return res.status(401).json({
+        ok: false,
+        msg: "No tienes privilegios de eliminar este evento",
+      });
+    }
+
+    await Event.deleteOne({ _id: eventId });
     return res.json({
       ok: true,
-      msg: "deleteEvents",
+      deleteEvent: "El evento ha sido eliminado",
     });
   } catch (error) {
     console.log("Error: ", error);
